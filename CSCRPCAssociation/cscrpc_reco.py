@@ -23,6 +23,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T21', ''
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5000) )
 process.source = cms.Source("PoolSource",
    #fileNames = cms.untracked.vstring('file:step2.root')
    fileNames = cms.untracked.vstring('file:/eos/home-j/jgomespi/workspace/MC_ForSummerStudents/MC_numEvent1000000.root')
@@ -41,6 +42,7 @@ process.demo = cms.EDAnalyzer('CSCRPCAssociation',
    , cscCorrDigisTag = cms.InputTag("simCscTriggerPrimitiveDigis")
    , rpcDigisTag = cms.InputTag("simMuonRPCDigis")
    , wiresDigisTag = cms.InputTag("simMuonCSCDigis","MuonCSCWireDigi")
+   , stripsDigisTag = cms.InputTag("simMuonCSCDigis","MuonCSCStripDigi")
 )
 
 process.p = cms.Path(process.demo)
