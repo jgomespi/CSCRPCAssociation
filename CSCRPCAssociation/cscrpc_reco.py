@@ -23,7 +23,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T21', ''
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
-#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5000) )
+#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(50000) )
 process.source = cms.Source("PoolSource",
    #fileNames = cms.untracked.vstring('file:step2.root')
    fileNames = cms.untracked.vstring('file:/eos/home-j/jgomespi/workspace/MC_ForSummerStudents/MC_numEvent1000000.root')
