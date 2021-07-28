@@ -114,17 +114,7 @@ private:
   edm::EDGetTokenT<CSCStripDigiCollection> stripsDigis_token;
   edm::Handle<CSCStripDigiCollection> stripsDigis;
 
-  int nomatch;
-  int MATCH_csc;
-  int MATCH_counter=0;
-  int NOMATCH_counter=0;
-  TH2F *nomatch_rings;
-  TH2F *nomatch_rings1;
-  TH2F *nomatch_rings2;
-  TH2F *nomatch_rings3;
-  TH2F *nomatch_rings4;
-  TH2F *nomatch_stations;
-  TH2F *CSCWG_RPCrolls_station4; 
+  TH2F *CSCWG_RPCrolls_station4;
   TH2F *CSCWG_RPCrolls_station3;
   TH2F *CSCWG_RPCrolls_station2;
   TH2F *CSCWG_RPCrolls_station1_2;
@@ -199,7 +189,6 @@ private:
   TH2F *CSCStrips_CFEB_station1_2;
   TH2F *CSCStrips_CFEB_station1_3;
 
-  TH2D *h2_smallest_all_chamber;
   // ----------member data ---------------------------
 //  edm::EDGetTokenT<TrackCollection> tracksToken_;  //used to select what tracks to read from configuration file
 #ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE
@@ -232,13 +221,7 @@ CSCRPCAssociation::CSCRPCAssociation(const edm::ParameterSet& iConfig) // Taking
 //  setupDataToken_ = esConsumes<SetupData, SetupRecord>();
 #endif
   //now do what ever initialization is needed
-   edm::Service<TFileService> fs;
-   nomatch_rings1 = fs->make<TH2F>("nomatch_rings1" , "Ring of CSC correlated LCT and segments STATION 1;CSC segment ring;CSC correlated LCT ring" , 5 , 0 , 5,5,0,5 );
-   nomatch_rings2 = fs->make<TH2F>("nomatch_rings2" , "Ring of CSC correlated LCT and segments STATION 2;CSC segment ring;CSC correlated LCT ring" , 5 , 0 , 5,5,0,5 );
-   nomatch_rings3 = fs->make<TH2F>("nomatch_rings3" , "Ring of CSC correlated LCT and segments STATION 3;CSC segment ring;CSC correlated LCT ring" , 5 , 0 , 5,5,0,5 );
-   nomatch_rings4 = fs->make<TH2F>("nomatch_rings4" , "Ring of CSC correlated LCT and segments STATION 4;CSC segment ring;CSC correlated LCT ring" , 5 , 0 , 5,5,0,5 );
-   nomatch_rings = fs->make<TH2F>("nomatch_rings" , "Ring of CSC correlated LCT and segments;CSC segment ring;CSC correlated LCT ring" , 5 , 0 , 5,5,0,5 );
-   nomatch_stations = fs->make<TH2F>("nomatch_stations" , "Station of CSC correlated LCT and segments;CSC segment station;CSC correlated LCT station" , 4 , 1 , 5,4,1,5 );
+  edm::Service<TFileService> fs;
   CSCWG_RPCrolls_station4 = fs->make<TH2F>("CSCWG_RPCrolls_station4", "CSCWireGroup vs RPCRoll (station = 4); CSCWireGroups ME4/2",66,-1,65,8,0,8);
   CSCWG_RPCrolls_station2 = fs->make<TH2F>("CSCWG_RPCrolls_station2", "CSCWireGroup vs RPCRoll (station = 2); CSCWireGroups ME2/2",66,-1,65,8,0,8);
   CSCWG_RPCrolls_station3 = fs->make<TH2F>("CSCWG_RPCrolls_station3", "CSCWireGroup vs RPCRoll (station = 3); CSCWireGroups ME3/2",66,-1,65,8,0,8);
@@ -246,9 +229,9 @@ CSCRPCAssociation::CSCRPCAssociation(const edm::ParameterSet& iConfig) // Taking
   CSCWG_RPCrolls_station1_3 = fs->make<TH2F>("CSCWG_RPCrolls_station1_3", "CSCWireGroup vs RPCRoll (station = 1); CSCWireGroups ME1/3",66,-1,65,8,0,8);
   CSCWG_etaMidRolls_station2 = fs->make<TH2F>("CSCWG_etaMidRolls_station2", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 2); CSCWireGroups ME2/2;|#eta|_{midRPCRoll}",66,-1,65,10,0.9,1.9);
   CSCWG_etaMidRolls_station3 = fs->make<TH2F>("CSCWG_etaMidRolls_station3", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 3); CSCWireGroups ME3/2;|#eta|_{midRPCRoll}",66,-1,65,10,0.9,1.9);
- CSCWG_etaMidRolls_station4 = fs->make<TH2F>("CSCWG_etaMidRolls_station4", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 4); CSCWireGroups ME4/2;|#eta|_{midRPCRoll}",66,-1,65,10,0.9,1.9);
- CSCWG_etaMidRolls_station1_2 = fs->make<TH2F>("CSCWG_etaMidRolls_station1_2", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 1); CSCWireGroups ME1/2;|#eta|_{midRPCRoll}",66,-1,65,10,0.9,1.9);
- CSCWG_etaMidRolls_station1_3 = fs->make<TH2F>("CSCWG_etaMidRolls_station1_3", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 1); CSCWireGroups ME1/3;|#eta|_{midRPCRoll}",66,-1,65,10,0.9,1.9);
+  CSCWG_etaMidRolls_station4 = fs->make<TH2F>("CSCWG_etaMidRolls_station4", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 4); CSCWireGroups ME4/2;|#eta|_{midRPCRoll}",66,-1,65,10,0.9,1.9);
+  CSCWG_etaMidRolls_station1_2 = fs->make<TH2F>("CSCWG_etaMidRolls_station1_2", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 1); CSCWireGroups ME1/2;|#eta|_{midRPCRoll}",66,-1,65,10,0.9,1.9);
+  CSCWG_etaMidRolls_station1_3 = fs->make<TH2F>("CSCWG_etaMidRolls_station1_3", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 1); CSCWireGroups ME1/3;|#eta|_{midRPCRoll}",66,-1,65,10,0.9,1.9);
 
   CSCWGWireDigis_RPCrolls_station4 = fs->make<TH2F>("CSCWGWireDigis_RPCrolls_station4", "CSCWireGroup vs RPCRoll (station = 4); CSCWireGroups ME4/2",114,-1,113,8,0,8);
   CSCWGWireDigis_RPCrolls_station2 = fs->make<TH2F>("CSCWGWireDigis_RPCrolls_station2", "CSCWireGroup vs RPCRoll (station = 2); CSCWireGroups ME2/2",114,-1,113,8,0,8);
@@ -257,43 +240,43 @@ CSCRPCAssociation::CSCRPCAssociation(const edm::ParameterSet& iConfig) // Taking
   CSCWGWireDigis_RPCrolls_station1_3 = fs->make<TH2F>("CSCWGWireDigis_RPCrolls_station1_3", "CSCWireGroup vs RPCRoll (station = 1); CSCWireGroups ME1/3",114,-1,113,8,0,8);
   CSCWGWireDigis_etaMidRolls_station2 = fs->make<TH2F>("CSCWGWireDigis_etaMidRolls_station2", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 2); CSCWireGroups ME2/2;|#eta|_{midRPCRoll}",114,-1,113,10,0.9,1.9);
   CSCWGWireDigis_etaMidRolls_station3 = fs->make<TH2F>("CSCWGWireDigis_etaMidRolls_station3", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 3); CSCWireGroups ME3/2;|#eta|_{midRPCRoll}",114,-1,113,10,0.9,1.9);
- CSCWGWireDigis_etaMidRolls_station4 = fs->make<TH2F>("CSCWGWireDigis_etaMidRolls_station4", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 4); CSCWireGroups ME4/2;|#eta|_{midRPCRoll}",114,-1,113,10,0.9,1.9);
- CSCWGWireDigis_etaMidRolls_station1_2 = fs->make<TH2F>("CSCWGWireDigis_etaMidRolls_station1_2", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 1); CSCWireGroups ME1/2;|#eta|_{midRPCRoll}",114,-1,113,10,0.9,1.9);
- CSCWGWireDigis_etaMidRolls_station1_3 = fs->make<TH2F>("CSCWGWireDigis_etaMidRolls_station1_3", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 1); CSCWireGroups ME1/3;|#eta|_{midRPCRoll}",114,-1,113,10,0.9,1.9);
+  CSCWGWireDigis_etaMidRolls_station4 = fs->make<TH2F>("CSCWGWireDigis_etaMidRolls_station4", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 4); CSCWireGroups ME4/2;|#eta|_{midRPCRoll}",114,-1,113,10,0.9,1.9);
+  CSCWGWireDigis_etaMidRolls_station1_2 = fs->make<TH2F>("CSCWGWireDigis_etaMidRolls_station1_2", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 1); CSCWireGroups ME1/2;|#eta|_{midRPCRoll}",114,-1,113,10,0.9,1.9);
+  CSCWGWireDigis_etaMidRolls_station1_3 = fs->make<TH2F>("CSCWGWireDigis_etaMidRolls_station1_3", "CSCWireGroup vs |#eta| of middle of RPCRoll (station = 1); CSCWireGroups ME1/3;|#eta|_{midRPCRoll}",114,-1,113,10,0.9,1.9);
 
 
- CSCWG_etaMidStrips_station2 = fs->make<TH2F>("CSCWG_etaMidStrips_station2", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 2); CSCWireGroups ME2/2;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
- CSCWG_etaMidStrips_station3 = fs->make<TH2F>("CSCWG_etaMidStrips_station3", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 3); CSCWireGroups ME3/2;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
- CSCWG_etaMidStrips_station4 = fs->make<TH2F>("CSCWG_etaMidStrips_station4", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 4); CSCWireGroups ME4/2;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
- CSCWG_etaMidStrips_station1_2 = fs->make<TH2F>("CSCWG_etaMidStrips_station1_2", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 1); CSCWireGroups ME1/2;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
- CSCWG_etaMidStrips_station1_3 = fs->make<TH2F>("CSCWG_etaMidStrips_station1_3", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 1); CSCWireGroups ME1/3;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
+  CSCWG_etaMidStrips_station2 = fs->make<TH2F>("CSCWG_etaMidStrips_station2", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 2); CSCWireGroups ME2/2;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
+  CSCWG_etaMidStrips_station3 = fs->make<TH2F>("CSCWG_etaMidStrips_station3", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 3); CSCWireGroups ME3/2;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
+  CSCWG_etaMidStrips_station4 = fs->make<TH2F>("CSCWG_etaMidStrips_station4", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 4); CSCWireGroups ME4/2;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
+  CSCWG_etaMidStrips_station1_2 = fs->make<TH2F>("CSCWG_etaMidStrips_station1_2", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 1); CSCWireGroups ME1/2;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
+  CSCWG_etaMidStrips_station1_3 = fs->make<TH2F>("CSCWG_etaMidStrips_station1_3", "CSCWireGroup vs |#eta| of middle of RPC fired strip (station = 1); CSCWireGroups ME1/3;|#eta|_{midRPCStrip}",114,-1,113,10,0.9,1.9);
 
 
- KeyWireGroups = fs->make<TH2F>("KeyWireGroups", "CSCCorrelatedLCTCollection KeyWireGroup; KeyWireGroup",114,-1,113,7,0,7);
- WireGroups = fs->make<TH2F>("WireGroups", "CSCWireDigiCollection WireGroup; WireGroup",114,-1,113,7,0,7);
+  KeyWireGroups = fs->make<TH2F>("KeyWireGroups", "CSCCorrelatedLCTCollection KeyWireGroup; KeyWireGroup",114,-1,113,7,0,7);
+  WireGroups = fs->make<TH2F>("WireGroups", "CSCWireDigiCollection WireGroup; WireGroup",114,-1,113,7,0,7);
 
- RPCStrips = fs->make<TH1F>("RPCStrips", "RPCDigisCollection Strip; Strip",121,-1,120);
+  RPCStrips = fs->make<TH1F>("RPCStrips", "RPCDigisCollection Strip; Strip",121,-1,120);
 
- CSCStrips_CFEB_station4 = fs->make<TH2F>("CSCStrips_CFEB_station4", "CSCStripDigisCollection CFEB x CSCStrip ME4/2; CFEB; CSCStrip",7,-1,6,86,-1,85);
- CSCStrips_CFEB_station3 = fs->make<TH2F>("CSCStrips_CFEB_station3", "CSCStripDigisCollection CFEB x CSCStrip ME3/2; CFEB; CSCStrip",7,-1,6,86,-1,85);
- CSCStrips_CFEB_station2 = fs->make<TH2F>("CSCStrips_CFEB_station2", "CSCStripDigisCollection CFEB x CSCStrip ME2/2; CFEB; CSCStrip",7,-1,6,86,-1,85);
- CSCStrips_CFEB_station1_2 = fs->make<TH2F>("CSCStrips_CFEB_station1_2", "CSCStripDigisCollection CFEB x CSCStrip ME1/2; CFEB; CSCStrip",7,-1,6,86,-1,85);
- CSCStrips_CFEB_station1_3 = fs->make<TH2F>("CSCStrips_CFEB_station1_3", "CSCStripDigisCollection CFEB x CSCStrip ME1/3; CFEB; CSCStrip",7,-1,6,86,-1,85);
+  CSCStrips_CFEB_station4 = fs->make<TH2F>("CSCStrips_CFEB_station4", "CSCStripDigisCollection CFEB x CSCStrip ME4/2; CFEB; CSCStrip",7,-1,6,86,-1,85);
+  CSCStrips_CFEB_station3 = fs->make<TH2F>("CSCStrips_CFEB_station3", "CSCStripDigisCollection CFEB x CSCStrip ME3/2; CFEB; CSCStrip",7,-1,6,86,-1,85);
+  CSCStrips_CFEB_station2 = fs->make<TH2F>("CSCStrips_CFEB_station2", "CSCStripDigisCollection CFEB x CSCStrip ME2/2; CFEB; CSCStrip",7,-1,6,86,-1,85);
+  CSCStrips_CFEB_station1_2 = fs->make<TH2F>("CSCStrips_CFEB_station1_2", "CSCStripDigisCollection CFEB x CSCStrip ME1/2; CFEB; CSCStrip",7,-1,6,86,-1,85);
+  CSCStrips_CFEB_station1_3 = fs->make<TH2F>("CSCStrips_CFEB_station1_3", "CSCStripDigisCollection CFEB x CSCStrip ME1/3; CFEB; CSCStrip",7,-1,6,86,-1,85);
 
- RPCStrips_CFEB_station4_2 = fs->make<TH2F>("RPCStrips_CFEB_station4_2", "RPCStripDigisCollection CFEB x RPCStrip RE4/2; CFEB; RPCStrip",7,-1,6,37,-1,36);
- RPCStrips_CFEB_station4_3 = fs->make<TH2F>("RPCStrips_CFEB_station4_3", "RPCStripDigisCollection CFEB x RPCStrip RE4/3; CFEB; RPCStrip",7,-1,6,37,-1,36);
- RPCStrips_CFEB_station3_2 = fs->make<TH2F>("RPCStrips_CFEB_station3_2", "RPCStripDigisCollection CFEB x RPCStrip RE3/2; CFEB; RPCStrip",7,-1,6,37,-1,36);
- RPCStrips_CFEB_station3_3 = fs->make<TH2F>("RPCStrips_CFEB_station3_3", "RPCStripDigisCollection CFEB x RPCStrip RE3/3; CFEB; RPCStrip",7,-1,6,37,-1,36);
- RPCStrips_CFEB_station2_2 = fs->make<TH2F>("RPCStrips_CFEB_station2_2", "RPCStripDigisCollection CFEB x RPCStrip RE2/2; CFEB; RPCStrip",7,-1,6,37,-1,36);
- RPCStrips_CFEB_station2_3 = fs->make<TH2F>("RPCStrips_CFEB_station2_3", "RPCStripDigisCollection CFEB x RPCStrip RE2/3; CFEB; RPCStrip",7,-1,6,37,-1,36);
- RPCStrips_CFEB_station1_2 = fs->make<TH2F>("RPCStrips_CFEB_station1_2", "RPCStripDigisCollection CFEB x RPCStrip RE1/2; CFEB; RPCStrip",7,-1,6,37,-1,36);
- RPCStrips_CFEB_station1_3 = fs->make<TH2F>("RPCStrips_CFEB_station1_3", "RPCStripDigisCollection CFEB x RPCStrip RE1/3; CFEB; RPCStrip",7,-1,6,37,-1,36);
-
- CFEB_CSC_occupancy_station4 = fs->make<TH1F>("CFEB_CSC_occupancy_station4", "CFEB CSC Occupancy ME4/2; CFEB", 7, -1, 6);
- CFEB_CSC_occupancy_station3 = fs->make<TH1F>("CFEB_CSC_occupancy_station3", "CFEB CSC Occupancy ME3/2; CFEB", 7, -1, 6);
- CFEB_CSC_occupancy_station2 = fs->make<TH1F>("CFEB_CSC_occupancy_station2", "CFEB CSC Occupancy ME2/2; CFEB", 7, -1, 6);
- CFEB_CSC_occupancy_station1_2 = fs->make<TH1F>("CFEB_CSC_occupancy_station1_2", "CFEB CSC Occupancy ME1/2; CFEB", 7, -1, 6);
- CFEB_CSC_occupancy_station1_3 = fs->make<TH1F>("CFEB_CSC_occupancy_station1_3", "CFEB CSC Occupancy ME1/3; CFEB", 7, -1, 6);
+  RPCStrips_CFEB_station4_2 = fs->make<TH2F>("RPCStrips_CFEB_station4_2", "RPCStripDigisCollection CFEB x RPCStrip RE4/2; CFEB; RPCStrip",7,-1,6,37,-1,36);
+  RPCStrips_CFEB_station4_3 = fs->make<TH2F>("RPCStrips_CFEB_station4_3", "RPCStripDigisCollection CFEB x RPCStrip RE4/3; CFEB; RPCStrip",7,-1,6,37,-1,36);
+  RPCStrips_CFEB_station3_2 = fs->make<TH2F>("RPCStrips_CFEB_station3_2", "RPCStripDigisCollection CFEB x RPCStrip RE3/2; CFEB; RPCStrip",7,-1,6,37,-1,36);
+  RPCStrips_CFEB_station3_3 = fs->make<TH2F>("RPCStrips_CFEB_station3_3", "RPCStripDigisCollection CFEB x RPCStrip RE3/3; CFEB; RPCStrip",7,-1,6,37,-1,36);
+  RPCStrips_CFEB_station2_2 = fs->make<TH2F>("RPCStrips_CFEB_station2_2", "RPCStripDigisCollection CFEB x RPCStrip RE2/2; CFEB; RPCStrip",7,-1,6,37,-1,36);
+  RPCStrips_CFEB_station2_3 = fs->make<TH2F>("RPCStrips_CFEB_station2_3", "RPCStripDigisCollection CFEB x RPCStrip RE2/3; CFEB; RPCStrip",7,-1,6,37,-1,36);
+  RPCStrips_CFEB_station1_2 = fs->make<TH2F>("RPCStrips_CFEB_station1_2", "RPCStripDigisCollection CFEB x RPCStrip RE1/2; CFEB; RPCStrip",7,-1,6,37,-1,36);
+  RPCStrips_CFEB_station1_3 = fs->make<TH2F>("RPCStrips_CFEB_station1_3", "RPCStripDigisCollection CFEB x RPCStrip RE1/3; CFEB; RPCStrip",7,-1,6,37,-1,36);
+ 
+  CFEB_CSC_occupancy_station4 = fs->make<TH1F>("CFEB_CSC_occupancy_station4", "CFEB CSC Occupancy ME4/2; CFEB", 7, -1, 6);
+  CFEB_CSC_occupancy_station3 = fs->make<TH1F>("CFEB_CSC_occupancy_station3", "CFEB CSC Occupancy ME3/2; CFEB", 7, -1, 6);
+  CFEB_CSC_occupancy_station2 = fs->make<TH1F>("CFEB_CSC_occupancy_station2", "CFEB CSC Occupancy ME2/2; CFEB", 7, -1, 6);
+  CFEB_CSC_occupancy_station1_2 = fs->make<TH1F>("CFEB_CSC_occupancy_station1_2", "CFEB CSC Occupancy ME1/2; CFEB", 7, -1, 6);
+  CFEB_CSC_occupancy_station1_3 = fs->make<TH1F>("CFEB_CSC_occupancy_station1_3", "CFEB CSC Occupancy ME1/3; CFEB", 7, -1, 6);
 
   KeyWireGroups->GetYaxis()->SetBinLabel(7," ");
   KeyWireGroups->GetYaxis()->SetBinLabel(6,"ME4/2");
@@ -310,8 +293,6 @@ CSCRPCAssociation::CSCRPCAssociation(const edm::ParameterSet& iConfig) // Taking
   WireGroups->GetYaxis()->SetBinLabel(3,"ME1/3");
   WireGroups->GetYaxis()->SetBinLabel(2,"ME1/2");
   WireGroups->GetYaxis()->SetBinLabel(1," ");
-
-
 
   CSCWG_RPCrolls_station4->GetYaxis()->SetBinLabel(8," ");
   CSCWG_RPCrolls_station4->GetYaxis()->SetBinLabel(7,"RE4/3 roll A");
@@ -419,13 +400,6 @@ CSCRPCAssociation::CSCRPCAssociation(const edm::ParameterSet& iConfig) // Taking
   ETAstrip_ME_3_2 = fs->make<TH1F>("ETAstrip_ME_3_2", "ETA of RE3/2; |#eta|; Entries",10,0.9,1.9);
   ETAstrip_ME_4_2 = fs->make<TH1F>("ETAstrip_ME_4_2", "ETA of RE4/2; |#eta|; Entries",10,0.9,1.9);
 
-  h2_smallest_all_chamber = fs->make<TH2D>("h2_smallest_all_chamber"," ;CSC Chamber; Distance from closest RPC chamber [cm]", 320, 0, 320, 150, 0, 150);
-
-  const char *label_v[320] = {"ME+1/1/1","ME+1/4/1","ME+1/1/3","ME+1/4/3","ME+1/1/5","ME+1/4/5","ME+1/1/7","ME+1/4/7","ME+1/1/9","ME+1/4/9","ME+1/1/11","ME+1/4/11","ME+1/1/13","ME+1/4/13","ME+1/1/15","ME+1/4/15","ME+1/1/17","ME+1/4/17","ME+1/1/19","ME+1/4/19","ME+1/1/21","ME+1/4/21","ME+1/1/23","ME+1/4/23","ME+1/1/25","ME+1/4/25","ME+1/1/27","ME+1/4/27","ME+1/1/29","ME+1/4/29","ME+1/1/31","ME+1/4/31","ME+1/1/33","ME+1/4/33","ME+1/1/35","ME+1/4/35","ME+1/1/2","ME+1/4/2","ME+1/1/4","ME+1/4/4","ME+1/1/6","ME+1/4/6","ME+1/1/8","ME+1/4/8","ME+1/1/10","ME+1/4/10","ME+1/1/12","ME+1/4/12","ME+1/1/14","ME+1/4/14","ME+1/1/16","ME+1/4/16","ME+1/1/18","ME+1/4/18","ME+1/1/20","ME+1/4/20","ME+1/1/22","ME+1/4/22","ME+1/1/24","ME+1/4/24","ME+1/1/26","ME+1/4/26","ME+1/1/28","ME+1/4/28","ME+1/1/30","ME+1/4/30","ME+1/1/32","ME+1/4/32","ME+1/1/34","ME+1/4/34","ME+1/1/36","ME+1/4/36","ME+1/2/1","ME+1/2/3","ME+1/2/5","ME+1/2/7","ME+1/2/9","ME+1/2/11","ME+1/2/13","ME+1/2/15","ME+1/2/17","ME+1/2/19","ME+1/2/21","ME+1/2/23","ME+1/2/25","ME+1/2/27","ME+1/2/29","ME+1/2/31","ME+1/2/33","ME+1/2/35","ME+1/2/2","ME+1/2/4","ME+1/2/6","ME+1/2/8","ME+1/2/10","ME+1/2/12","ME+1/2/14","ME+1/2/16","ME+1/2/18","ME+1/2/20","ME+1/2/22","ME+1/2/24","ME+1/2/26","ME+1/2/28","ME+1/2/30","ME+1/2/32","ME+1/2/34","ME+1/2/36","ME+1/3/1","ME+1/3/2","ME+1/3/3","ME+1/3/4","ME+1/3/5","ME+1/3/6","ME+1/3/7","ME+1/3/8","ME+1/3/9","ME+1/3/10","ME+1/3/11","ME+1/3/12","ME+1/3/13","ME+1/3/14","ME+1/3/15","ME+1/3/16","ME+1/3/17","ME+1/3/18","ME+1/3/19","ME+1/3/20","ME+1/3/21","ME+1/3/22","ME+1/3/23","ME+1/3/24","ME+1/3/25","ME+1/3/26","ME+1/3/27","ME+1/3/28","ME+1/3/29","ME+1/3/30","ME+1/3/31","ME+1/3/32","ME+1/3/33","ME+1/3/34","ME+1/3/35","ME+1/3/36","ME+2/1/1","ME+2/1/3","ME+2/1/5","ME+2/1/7","ME+2/1/9","ME+2/1/11","ME+2/1/13","ME+2/1/15","ME+2/1/17","ME+2/1/2","ME+2/1/4","ME+2/1/6","ME+2/1/8","ME+2/1/10","ME+2/1/12","ME+2/1/14","ME+2/1/16","ME+2/1/18","ME+2/2/1","ME+2/2/3","ME+2/2/5","ME+2/2/7","ME+2/2/9","ME+2/2/11","ME+2/2/13","ME+2/2/15","ME+2/2/17","ME+2/2/19","ME+2/2/21","ME+2/2/23","ME+2/2/25","ME+2/2/27","ME+2/2/29","ME+2/2/31","ME+2/2/33","ME+2/2/35","ME+2/2/2","ME+2/2/4","ME+2/2/6","ME+2/2/8","ME+2/2/10","ME+2/2/12","ME+2/2/14","ME+2/2/16","ME+2/2/18","ME+2/2/20","ME+2/2/22","ME+2/2/24","ME+2/2/26","ME+2/2/28","ME+2/2/30","ME+2/2/32","ME+2/2/34","ME+2/2/36","ME+3/1/1","ME+3/1/3","ME+3/1/5","ME+3/1/7","ME+3/1/9","ME+3/1/11","ME+3/1/13","ME+3/1/15","ME+3/1/17","ME+3/1/2","ME+3/1/4","ME+3/1/6","ME+3/1/8","ME+3/1/10","ME+3/1/12","ME+3/1/14","ME+3/1/16","ME+3/1/18","ME+3/2/1","ME+3/2/3","ME+3/2/5","ME+3/2/7","ME+3/2/9","ME+3/2/11","ME+3/2/13","ME+3/2/15","ME+3/2/17","ME+3/2/19","ME+3/2/21","ME+3/2/23","ME+3/2/25","ME+3/2/27","ME+3/2/29","ME+3/2/31","ME+3/2/33","ME+3/2/35","ME+3/2/2","ME+3/2/4","ME+3/2/6","ME+3/2/8","ME+3/2/10","ME+3/2/12","ME+3/2/14","ME+3/2/16","ME+3/2/18","ME+3/2/20","ME+3/2/22","ME+3/2/24","ME+3/2/26","ME+3/2/28","ME+3/2/30","ME+3/2/32","ME+3/2/34","ME+3/2/36","ME+4/1/1","ME+4/1/3","ME+4/1/5","ME+4/1/7","ME+4/1/9","ME+4/1/11","ME+4/1/13","ME+4/1/15","ME+4/1/17","ME+4/1/2","ME+4/1/4","ME+4/1/6","ME+4/1/8","ME+4/1/10","ME+4/1/12","ME+4/1/14","ME+4/1/16","ME+4/1/18","ME+4/2/1","ME+4/2/3","ME+4/2/5","ME+4/2/7","ME+4/2/9","ME+4/2/11","ME+4/2/13","ME+4/2/15","ME+4/2/17","ME+4/2/19","ME+4/2/21","ME+4/2/23","ME+4/2/25","ME+4/2/27","ME+4/2/29","ME+4/2/31","ME+4/2/33","ME+4/2/35","ME+4/2/2","ME+4/2/4","ME+4/2/6","ME+4/2/8","ME+4/2/10","ME+4/2/12","ME+4/2/14","ME+4/2/16","ME+4/2/18","ME+4/2/20","ME+4/2/22","ME+4/2/24","ME+4/2/26","ME+4/2/28","ME+4/2/30","ME+4/2/32","ME+4/2/34","ME+4/2/36","ME-1/1/1","ME-1/4/1","ME-1/1/3","ME-1/4/3","ME-1/1/5","ME-1/4/5","ME-1/1/7","ME-1/4/7","ME-1/1/9","ME-1/4/9","ME-1/1/11","ME-1/4/11","ME-1/1/13"};
-
-  for (int ii=1;ii<=320;ii++) h2_smallest_all_chamber->GetXaxis()->SetBinLabel(ii,label_v[ii-1]);
-
-
 }
 
 CSCRPCAssociation::~CSCRPCAssociation() {
@@ -457,152 +431,35 @@ void CSCRPCAssociation::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	iEvent.getByToken(rpcDigis_token, rpcDigis);
         iEvent.getByToken(wiresDigis_token, wiresDigis);
         iEvent.getByToken(stripsDigis_token, stripsDigis);
-        float sumstripwendcap = 0;
-        float areaendcap = 0;
-/*
-        std::vector<RPCChamber> RPCChambers_v;
-        std::vector<const CSCChamber*> CSCChambers_v;
-        std::vector<RPCDetId> RPCRolls_v;
-
-        RPCChambers_v.clear();
-        CSCChambers_v.clear();
-
-	std::map<CSCStationIndex,std::set<RPCDetId>> rollstoreCSC;
-        rollstoreCSC.clear();
-	//std::cout << ">>>>>>> LIST OF RPC GENERAL INFORMATION <<<<<<< " << std::endl;
-	for (TrackingGeometry::DetContainer::const_iterator it=rpcGeo->dets().begin();it<rpcGeo->dets().end();it++){
-            if (dynamic_cast< const RPCChamber* >( *it ) == nullptr ) continue;
-            auto ch = dynamic_cast< const RPCChamber* >( *it );
-            std::vector< const RPCRoll*> roles = (ch->rolls());
-	    RPCDetId detId = ch->id();
-	    if(abs(detId.region())!=1) continue;
-            for (std::vector<const RPCRoll*>::const_iterator r = roles.begin();r != roles.end(); ++r){
-                RPCDetId rpcId = (*r)->id();
-                int rpcregion=rpcId.region();
-                if (rpcregion==0) continue;
-		RPCChambers_v.push_back(*ch); // S A V E   R P C   C H A M B E R S
-                RPCRolls_v.push_back(rpcId);
-                int rpcstation=rpcId.station();
-                int rpcring=rpcId.ring();
-                int cscring=rpcring;
-                int cscstation=rpcstation;
-                RPCGeomServ rpcsrv(rpcId);
-                int rpcsegment = rpcsrv.segment();
-                int cscchamber = rpcsegment;
-                if ((rpcstation==2||rpcstation==3||rpcstation==4)&&rpcring==3) cscring = 2;
-	        CSCStationIndex ind(rpcregion,cscstation,cscring,cscchamber);
-                std::set<RPCDetId> myrolls;
-                if (rollstoreCSC.find(ind)!=rollstoreCSC.end()) myrolls=rollstoreCSC[ind];
-                myrolls.insert(rpcId);
-                rollstoreCSC[ind]=myrolls;
-	   }
-	}
-
-	// Save CSC Chambers
-        std::vector<int> cscchamber_n;
-
-        int chamber_n_temp = 1;
-        for (auto it = cscGeo->chambers().begin(), end = cscGeo->chambers().end(); it != end; ++it) {
-                const CSCChamber *ch = *it;
-                CSCDetId cscId = ch->id();
-                if(cscId.endcap()>0){
-                        CSCChambers_v.push_back(ch);
-                        cscchamber_n.push_back(chamber_n_temp);
-                        chamber_n_temp++;
-                }
-        }
-	
-	// Look dR between CSC <-> RPC
-        for(unsigned i=0; i<CSCChambers_v.size(); i++){
-           double R = 9999.;
-           GlobalPoint gpcsc = CSCChambers_v.at(i)->surface().toGlobal(LocalPoint(0.0, 0.0, 0.0));
-           CSCDetId cscId = CSCChambers_v.at(i)->id();
-           if (100<1) std::cout << cscId << std::endl;
-           RPCDetId rpcId;
-           for(unsigned j=0; j<RPCChambers_v.size(); j++){
-               const RPCRoll* rollasociated = rpcGeo->roll(RPCRolls_v.at(j));
-               if(rollasociated==0) continue;
-               GlobalPoint gprpc = rollasociated->surface().toGlobal(LocalPoint(0.0, 0.0, 0.0));
-               double R_temp = sqrt((gprpc.x()-gpcsc.x())*(gprpc.x()-gpcsc.x())+(gprpc.y()-gpcsc.y())*(gprpc.y()-gpcsc.y())+(gprpc.z()-gpcsc.z())*(gprpc.z()-gpcsc.z()));
-               if (R_temp<R) {R = R_temp; rpcId = rollasociated->id();}
-            }
-            RPCGeomServ rpcsrv(rpcId);
-            h2_smallest_all_chamber->Fill((i+1),R);
-        }
-*/
-	// Look dR between CSC <-> RPC using CSC <-> RPC association
-	
-
-
-
-
-
-
-
 
 	RPCDigiCollection::DigiRangeIterator detUnitIt;
+	// Loop on rpcDigis
 	for (detUnitIt = rpcDigis->begin(); detUnitIt != rpcDigis->end(); ++detUnitIt) {
-
 	    const RPCDetId id = (*detUnitIt).first; // RPCDetId: set of RPC Digis
             if (id.region()==0)continue; // Exclude barrel region
 	    if (dynamic_cast<const RPCRoll*>(rpcGeo->roll(id)) == 0) continue; //joao inserted this if to not crash
-            const RPCRoll* roll = dynamic_cast<const RPCRoll*>(rpcGeo->roll(id));
+            const RPCRoll* roll = dynamic_cast<const RPCRoll*>(rpcGeo->roll(id)); // get roll, if it is not 0
             const RPCDigiCollection::Range range = (*detUnitIt).second; // RPCDigi (pair<bx window, fired strip number>)
             const BoundPlane & RPCSurface = roll->surface();
-	    /*
-	    const int nstrips = roll->nstrips();
-	    float middleStrip = nstrips/2.;
-	    const LocalPoint& middleOfRoll = roll->centreOfStrip(middleStrip);
-	    const GlobalPoint& globMiddleRoll = roll->toGlobal(middleOfRoll);
-	    float etaMiddleRoll = abs(globMiddleRoll.eta());    
-	    float phiMiddleRoll = globMiddleRoll.phi(); 
-	    *//*for (RPCDigiCollection::const_iterator digiIt = range.second; digiIt != range.first; --digiIt) {
-	        int strip= (*digiIt).strip();
-	        const TrapezoidalStripTopology* top_= dynamic_cast<const TrapezoidalStripTopology*> (&((roll)->topology()));
-                GlobalPoint CenterPointRollGlobal = RPCSurface.toGlobal(top_->localPosition(strip));
-                float etaMiddleStrip = abs(CenterPointRollGlobal.eta());
-	        if ( etaMiddleRoll-etaMiddleStrip!=0) std::cout << "they are not the same eta: " << etaMiddleRoll-etaMiddleStrip << std::endl;
-	    }
- 	    //const TrapezoidalStripTopology* top_= dynamic_cast<const TrapezoidalStripTopology*> (&((roll)->topology()));  
- 	    //GlobalPoint CenterPointRollGlobal = RPCSurface.toGlobal(top_->localPosition(middleStrip));
-	    //float etaMiddleStrip = abs(CenterPointRollGlobal.eta());
-
-	    //if ( etaMiddleRoll-etaMiddleStrip!=0) std::cout << "they are not the same eta: " << etaMiddleRoll-etaMiddleStrip << std::endl;
-	    */
-	    /*
-            GlobalPoint CenterPointRollGlobal  = RPCSurface.toGlobal(LocalPoint(0,0,0));
-	    GlobalPoint CenterPointRollGlobal2 = RPCSurface.toGlobal(top_->localPosition(top_->stripLength()/2));
-	    GlobalPoint CenterPointRollGlobal3 = RPCSurface.toGlobal(top_->localPosition(middleStrip));
-	    std::cout << "etaMiddleRol " << globMiddleRol.eta() << "\tphiMiddleRol " << globMiddleRol.phi() << std::endl;
-	    std::cout << "etaCenterPointRollGlobal " << CenterPointRollGlobal.eta() << "\tphiCenterPointRollGlobal " << CenterPointRollGlobal.barePhi() << std::endl;	
-            std::cout << "etaCenterPointRollGlobal2 " << CenterPointRollGlobal2.eta() << "\tphiCenterPointRollGlobal2 " << CenterPointRollGlobal2.barePhi() << std::endl;
-            std::cout << "etaCenterPointRollGlobal3 " << CenterPointRollGlobal3.eta() << "\tphiCenterPointRollGlobal3 " << CenterPointRollGlobal3.barePhi() << std::endl;*/
 	    int digisInRoll = 0;
 	    // Loop on bx window
             for (RPCDigiCollection::const_iterator digiIt = range.first; digiIt != range.second; ++digiIt) {
 	      // Loop on fired strips
   	      for (RPCDigiCollection::const_iterator digiIts = range.second; digiIts != range.first; --digiIts) {
-	        //std::cout << " digi " << *digiIt << std::endl;
-		
                 if (digiIt->strip() < 1 || digiIt->strip() > roll->nstrips()) std::cout << " XXXXXXXXXXXXX Problemt with " << id << std::endl;
-                int strip= (*digiIt).strip();
-                int strip_= (*digiIts).strip();
+                int strip= (*digiIt).strip(); // get strip from global hit
+                int strip_= (*digiIts).strip(); // get strip from local hit (smeared values)
                 const TrapezoidalStripTopology* top_= dynamic_cast<const TrapezoidalStripTopology*> (&((roll)->topology()));
                 GlobalPoint CenterPointRollGlobal = RPCSurface.toGlobal(top_->localPosition(strip));
                 GlobalPoint CenterPointRollGlobal_ = RPCSurface.toGlobal(top_->localPosition(strip_));
-                float etaMiddleStrip = abs(CenterPointRollGlobal_.eta());
-		float etaMiddleRoll = abs(CenterPointRollGlobal.eta());
-	        int bxRPC=(*digiIt).bx();
+                float etaMiddleStrip = abs(CenterPointRollGlobal_.eta()); // eta of the middle of the strip
+		float etaMiddleRoll = abs(CenterPointRollGlobal.eta());   // eta of the middle of the roll
+	        int bxRPC=(*digiIt).bx(); // get bx
 		//std::cout << "strip(): " << digiIt->strip() << std::endl;
-	        if (bxRPC!=0) continue;
+	        if (bxRPC!=0) continue; // require central bx
 	        digisInRoll++;
-	        //std::cout << "strip " <<  strip << "\tbx " <<  bx << std::endl;     
-	        //take the global coordinates of the center of a given strip
-		//if (etaMiddleRoll-etaMiddleStrip!=0) std::cout << "etaMiddleStrip = "<<etaMiddleStrip << " etaMiddleRoll = "<<etaMiddleRoll << std::endl;
-	        //const LocalPoint& middleOfStrip = roll->centreOfStrip(strip);
-	        //const GlobalPoint& globMiddleStrip = roll->toGlobal(middleOfStrip);
-                //std::cout << "eta strip " << globMiddleStrip.eta() << "\tphi strip " << globMiddleStrip.phi() << std::endl;	
-	        int regionRPC = id.region();
+	        // Get the region, station, roll, chamber, ring, sector and layer info
+		int regionRPC = id.region();
 	        int stationRPC = id.station();	
 	        RPCGeomServ rpcsrv(id);
 	        int rollRPC = id.roll();
@@ -611,21 +468,25 @@ void CSCRPCAssociation::analyze(const edm::Event& iEvent, const edm::EventSetup&
 		if (ringRPC==1) continue;
                 int sectorRPC = id.sector();
 		int layerRPC = id.layer();
-		// Exclude iRPCs
+		// Exclude iRPCs ring
                 if (stationRPC==3 && ringRPC==1) continue;
                 if (stationRPC==4 && ringRPC==1) continue;
                 int nrollRPC=0;      
+		// This is a change of convention of rolls enumeration to be easier of drawing histos
                 if (rollRPC==1) nrollRPC=3;
                 if (rollRPC==2) nrollRPC=2;
                 if (rollRPC==3) nrollRPC=1;
 	 	RPCStrips->Fill(strip);
-		
+		// Loop on CSCCorrelatedLCTDigis collection
                 for (CSCCorrelatedLCTDigiCollection::DigiRangeIterator csc = cscCorrDigis.product()->begin();
                     csc != cscCorrDigis.product()->end();
                     csc++) {
                     CSCCorrelatedLCTDigiCollection::Range myCscRange = cscCorrDigis.product()->get((*csc).first);
                     int brk=0;
-		    for (CSCCorrelatedLCTDigiCollection::const_iterator lct = myCscRange.first; lct != myCscRange.second; lct++) {
+		    for (CSCCorrelatedLCTDigiCollection::const_iterator lct = myCscRange.first; 
+			lct != myCscRange.second; 
+			lct++) {//loop on bx
+			// Get the id, endcap, station, sector, ring, cscId, chamber, layer, keywiregroup
 			const CSCDetId idCSC = (*csc).first;
                         int endcap = idCSC.endcap();
                         if (endcap==2) endcap=-1;
@@ -636,7 +497,7 @@ void CSCRPCAssociation::analyze(const edm::Event& iEvent, const edm::EventSetup&
 		        if (ring==1) continue;
                 	int cscId = idCSC.triggerCscId();
                 	int bx = lct->getBX();
-		  	bx = bx-8;
+		  	bx = bx-8; // Remember that on CSCCorrLCTDigis collection, the central bx is 8
                 	if (bx!=0) continue;
 		        int bxData = lct->getBXData();
                 	int bx0 = lct->getBX0();
@@ -644,15 +505,14 @@ void CSCRPCAssociation::analyze(const edm::Event& iEvent, const edm::EventSetup&
                 	int layer = idCSC.layer();
                 	int chamber = idCSC.chamber();
 			int wiregroup = lct->getKeyWG();
-                        //const CSCChamber* cscchamber = cscGeo->chamber(idCSC);
-                        //GlobalPoint gpcsc = cscchamber->surface().toGlobal(LocalPoint(0.0, 0.0, 0.0));
-			//std::cout << "gpcsc.x() = " << gpcsc.x() << std::endl;
-			if (endcap!=regionRPC || station!=stationRPC || chamber != chamberRPC || bx!=bxRPC) continue;
-			if (station==4 || station==3 || station==2) {int varing = ring+1; if (ringRPC!=ring && ringRPC!=varing) continue;}       		      if (station==1 && ringRPC!=ring) continue;
-		        //std::cout << "eta strip " << globMiddleStrip.eta() << "\tphi strip " << globMiddleStrip.phi() << std::endl; 
-		        //if (TheChamber==nullptr) continue;	
-			//std::cout << "TheChamber isn't a null pointer" << std::endl;
-			//if (etaMiddleRoll-etaMiddleStrip!=0) std::cout << "etaMiddleStrip = "<<etaMiddleStrip << " etaMiddleRoll = "<<etaMiddleRoll << std::endl;
+			if (endcap!=regionRPC || station!=stationRPC || chamber != chamberRPC || bx!=bxRPC) continue; //preliminary matching
+			// exclude the ring we do not will use, like ring 1
+			if (station==4 || station==3 || station==2) {
+			   int varing = ring+1; 
+			   if (ringRPC!=ring && ringRPC!=varing) continue;
+			}
+        		if (station==1 && ringRPC!=ring) continue;
+			// Get the keywiregroups
 			if (station==1 && ring==2) KeyWireGroups->Fill(wiregroup,1);
                         if (station==1 && ring==3) KeyWireGroups->Fill(wiregroup,2);
                         if (station==2 && ring==2) KeyWireGroups->Fill(wiregroup,3);
@@ -660,7 +520,7 @@ void CSCRPCAssociation::analyze(const edm::Event& iEvent, const edm::EventSetup&
                         if (station==4 && ring==2) KeyWireGroups->Fill(wiregroup,5);
 		        //std::cout << "CSCCorrLCT INFO: "<< "cscEndCap: " << endcap << "\tcscStation: " << station << "\tcscSector: " << sector << "\tcscChamber: " << chamber << "\tcscLayer: " << layer<< "\tcscRing: " << ring << "wiregroup: " << wiregroup  <<  std::endl; 
 			//std::cout << "RPCDigiCol INFO: "<< "rpcRegion: " << regionRPC << "\trpcStation: " << stationRPC << "\trpcSector: " << sectorRPC << "\trpcChamber: " << chamberRPC << "\trpcLayer: " << layerRPC << "\trpcRing: " << ringRPC << "\troll: " << rollRPC << std::endl;
-			
+			// Fill the correlation of RPC and CSC chambers 
 			if (station==4 && ring==2 && ringRPC==2) {
                            CSCWG_RPCrolls_station4->Fill(wiregroup,(ringRPC-2)*3+nrollRPC);
                            CSCWG_etaMidRolls_station4->Fill(wiregroup,etaMiddleRoll);
@@ -715,15 +575,17 @@ void CSCRPCAssociation::analyze(const edm::Event& iEvent, const edm::EventSetup&
 		   }
 	      if (brk==1) break;
 	      }
+	      // Loop on strips of CSC to check the matching of CFEBs of CSC and RPC strips
               for (CSCStripDigiCollection::DigiRangeIterator strips=stripsDigis->begin(); strips!=stripsDigis->end(); strips++) {
 		   CSCDetId id = (CSCDetId)(*strips).first;
+		   // get the endcap, ring, station and chamber info
                    int kEndcap  = id.endcap();
                    int kRing    = id.ring();
                    int kStation = id.station();
                    int kChamber = id.chamber();
-                   if (kEndcap==0) continue;
-                   if (kRing==1) continue;
-                   if (kEndcap==2) kEndcap=-1;
+                   if (kEndcap==0) continue; // exclude barrel region
+                   if (kRing==1) continue;   // exclude ring 1 of CSC
+                   if (kEndcap==2) kEndcap=-1; // same convention of RPC
                    std::vector<CSCStripDigi>::const_iterator stripIt = (*strips).second.first;
                    std::vector<CSCStripDigi>::const_iterator lastStrip = (*strips).second.second;
 		   int brk =0;
@@ -731,17 +593,54 @@ void CSCRPCAssociation::analyze(const edm::Event& iEvent, const edm::EventSetup&
                         int CSCstrip = (*stripIt).getStrip();// Get the strip number. counts from 1.
                         int CFEB  = (*stripIt).getCFEB();// Get the CFEB number. Counts from 0.
 			//int bx    = stripIt->getBX();
+			// Preliminary matching
 			if (kEndcap!=regionRPC || kStation!=stationRPC || kChamber != chamberRPC) continue;
-                        if (kStation==4 || kStation==3 || kStation==2) {int varkRing=kRing+1; if (varkRing!=ringRPC && kRing!=ringRPC) continue;}
+                        if (kStation==4 || kStation==3 || kStation==2) {
+			   int varkRing=kRing+1; 
+			   if (varkRing!=ringRPC && kRing!=ringRPC) continue;
+			}
                         if (kStation==1 && ringRPC!=kRing) continue;
-			if (kStation==1 && kRing==2 && ringRPC==2) {CFEB_CSC_occupancy_station1_2->Fill(CFEB); CSCStrips_CFEB_station1_2->Fill(CFEB,CSCstrip);RPCStrips_CFEB_station1_2->Fill(CFEB,strip);}
-                        if (kStation==1 && kRing==3 && ringRPC==3) {CFEB_CSC_occupancy_station1_3->Fill(CFEB); CSCStrips_CFEB_station1_3->Fill(CFEB,CSCstrip);RPCStrips_CFEB_station1_3->Fill(CFEB,strip);}
-                        if (kStation==2 && kRing==2 && ringRPC==2) {CFEB_CSC_occupancy_station2->Fill(CFEB); CSCStrips_CFEB_station2->Fill(CFEB,CSCstrip);RPCStrips_CFEB_station2_2->Fill(CFEB,strip);}
-                        if (kStation==2 && kRing==2 && ringRPC==3) {CFEB_CSC_occupancy_station2->Fill(CFEB); CSCStrips_CFEB_station2->Fill(CFEB,CSCstrip);RPCStrips_CFEB_station2_3->Fill(CFEB,strip);}
-                        if (kStation==3 && kRing==2 && ringRPC==2) {CFEB_CSC_occupancy_station3->Fill(CFEB); CSCStrips_CFEB_station3->Fill(CFEB,CSCstrip);RPCStrips_CFEB_station3_2->Fill(CFEB,strip);}
-                        if (kStation==3 && kRing==2 && ringRPC==3) {CFEB_CSC_occupancy_station3->Fill(CFEB); CSCStrips_CFEB_station3->Fill(CFEB,CSCstrip);RPCStrips_CFEB_station3_3->Fill(CFEB,strip);}
-                        if (kStation==4 && kRing==2 && ringRPC==2) {CFEB_CSC_occupancy_station4->Fill(CFEB); CSCStrips_CFEB_station4->Fill(CFEB,CSCstrip);RPCStrips_CFEB_station4_2->Fill(CFEB,strip);}
-                        if (kStation==4 && kRing==2 && ringRPC==3) {CFEB_CSC_occupancy_station4->Fill(CFEB); CSCStrips_CFEB_station4->Fill(CFEB,CSCstrip);RPCStrips_CFEB_station4_3->Fill(CFEB,strip);}
+			// Fill the correlation of CFEBs and RPC strips
+			if (kStation==1 && kRing==2 && ringRPC==2) {
+			   CFEB_CSC_occupancy_station1_2->Fill(CFEB); 
+			   CSCStrips_CFEB_station1_2->Fill(CFEB,CSCstrip);
+			   RPCStrips_CFEB_station1_2->Fill(CFEB,strip);
+			}
+                        if (kStation==1 && kRing==3 && ringRPC==3) {
+			   CFEB_CSC_occupancy_station1_3->Fill(CFEB); 
+			   CSCStrips_CFEB_station1_3->Fill(CFEB,CSCstrip);
+			   RPCStrips_CFEB_station1_3->Fill(CFEB,strip);
+			}
+                        if (kStation==2 && kRing==2 && ringRPC==2) {
+			   CFEB_CSC_occupancy_station2->Fill(CFEB); 
+			   CSCStrips_CFEB_station2->Fill(CFEB,CSCstrip);
+			   RPCStrips_CFEB_station2_2->Fill(CFEB,strip);
+			}
+                        if (kStation==2 && kRing==2 && ringRPC==3) {
+			   CFEB_CSC_occupancy_station2->Fill(CFEB); 
+			   CSCStrips_CFEB_station2->Fill(CFEB,CSCstrip);
+			   RPCStrips_CFEB_station2_3->Fill(CFEB,strip);
+			}
+                        if (kStation==3 && kRing==2 && ringRPC==2) {
+			   CFEB_CSC_occupancy_station3->Fill(CFEB); 
+			   CSCStrips_CFEB_station3->Fill(CFEB,CSCstrip);
+			   RPCStrips_CFEB_station3_2->Fill(CFEB,strip);
+			}
+                        if (kStation==3 && kRing==2 && ringRPC==3) {
+			   CFEB_CSC_occupancy_station3->Fill(CFEB); 
+			   CSCStrips_CFEB_station3->Fill(CFEB,CSCstrip);
+			   RPCStrips_CFEB_station3_3->Fill(CFEB,strip);
+			}
+                        if (kStation==4 && kRing==2 && ringRPC==2) {
+			   CFEB_CSC_occupancy_station4->Fill(CFEB); 
+			   CSCStrips_CFEB_station4->Fill(CFEB,CSCstrip);
+			   RPCStrips_CFEB_station4_2->Fill(CFEB,strip);
+			}
+                        if (kStation==4 && kRing==2 && ringRPC==3) {
+			   CFEB_CSC_occupancy_station4->Fill(CFEB); 
+			   CSCStrips_CFEB_station4->Fill(CFEB,CSCstrip);
+			   RPCStrips_CFEB_station4_3->Fill(CFEB,strip);
+			}
 //		        std::cout <<" RPCstrip: " << strip << " RPCstrip_: " << strip_ << " CSCstrip: " << CSCstrip << " CFEB: " << CFEB << std::endl;
 		   //brk=1;break;   
 		   } 
@@ -749,30 +648,39 @@ void CSCRPCAssociation::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	        }
 
 //              std::cout<<"---------------------"<< std::endl;	
-              for (CSCWireDigiCollection::DigiRangeIterator wi=wiresDigis->begin(); wi!=wiresDigis->end(); wi++) {
+                // Loop on wires of CSC to check the compatibility with key wire groups
+		for (CSCWireDigiCollection::DigiRangeIterator wi=wiresDigis->begin(); wi!=wiresDigis->end(); wi++) {
                    CSCDetId id = (CSCDetId)(*wi).first;
+		   // get endcap, ring, station, chamber
                    int kEndcap  = id.endcap();
                    int kRing    = id.ring();
                    int kStation = id.station();
                    int kChamber = id.chamber();
-                   if (kEndcap==0) continue;
-		   if (kRing==1) continue;
-		   if (kEndcap==2) kEndcap=-1;
+                   if (kEndcap==0) continue; // exclude barrel
+		   if (kRing==1) continue;   // exclude ring 1 of CSC
+		   if (kEndcap==2) kEndcap=-1;  // change for RPC convention
 		   std::vector<CSCWireDigi>::const_iterator wireIt = (*wi).second.first;
       		   std::vector<CSCWireDigi>::const_iterator lastWire = (*wi).second.second;
 		   int brk=0;
+		   // Loop on wires
                    for ( ; wireIt != lastWire; ++wireIt){
-                        int wiregroup = (*wireIt).getWireGroup();  
-                   	int bxCSCWG = wireIt->getWireGroupBX();
+                        int wiregroup = (*wireIt).getWireGroup(); // get wire groups
+                   	int bxCSCWG = wireIt->getWireGroupBX();   // get bx
 			if (bxCSCWG!=0) continue;     
+			// Fill the wire groups
 			if (kStation==1 && kRing==2) WireGroups->Fill(wiregroup,1);
 			if (kStation==1 && kRing==3) WireGroups->Fill(wiregroup,2);
                         if (kStation==2 && kRing==2) WireGroups->Fill(wiregroup,3);
                         if (kStation==3 && kRing==2) WireGroups->Fill(wiregroup,4);
                         if (kStation==4 && kRing==2) WireGroups->Fill(wiregroup,5);
+			// Preliminary matching
 			if (kEndcap!=regionRPC && kStation!=stationRPC && kChamber!= chamberRPC && bxCSCWG!=bxRPC) continue;
-			if (kStation==4 || kStation==3 || kStation==2) {int varkRing=kRing+1; if (varkRing!=ringRPC && kRing!=ringRPC) continue;}
+			if (kStation==4 || kStation==3 || kStation==2) {
+			   int varkRing=kRing+1; 
+			   if (varkRing!=ringRPC && kRing!=ringRPC) continue;
+			}
 			if (kStation==1 && ringRPC!=kRing) continue;
+			// Fill the correlation
                         if (kStation==4 && kRing==2 && ringRPC==2) {
                            CSCWGWireDigis_RPCrolls_station4->Fill(wiregroup,(ringRPC-2)*3+nrollRPC);
                            CSCWGWireDigis_etaMidRolls_station4->Fill(wiregroup,etaMiddleRoll);
@@ -805,283 +713,55 @@ void CSCRPCAssociation::analyze(const edm::Event& iEvent, const edm::EventSetup&
                            CSCWGWireDigis_RPCrolls_station1_3->Fill(wiregroup,(ringRPC-2)*3+nrollRPC);
                            CSCWGWireDigis_etaMidRolls_station1_3->Fill(wiregroup,etaMiddleRoll);
                         }
-                       if ( (*wireIt).getWireGroup()>64)  std::cout << "getWireGroup: " << (*wireIt).getWireGroup() << std::endl;
-		       //if (!wireo[kEndcap-1][kStation-1][kRing-1][kChamber-1]){
-                       //std::cout << "Station: " << kStation << std::endl;
-                       //wireo[kEndcap-1][kStation-1][kRing-1][kChamber-1] = true;
-                       //hOWires->Fill(kChamber,typeIndex(id));
-                       //histos->fill1DHist(chamberSerial(id),"hOWireSerial","Wire Occupancy by Chamber Serial",601,-0.5,600.5,"Digis");
-                       //hasWires = true;
-                       //}
                     brk=1;
                     break;   
                     }
-	       if (brk==1) break;
-               }
-                                                                         	      
-		if (stationRPC==1 && ringRPC==2) {Rolls_RE_1_2->Fill(nrollRPC);ETA_ME_1_2->Fill(etaMiddleRoll);ETAstrip_ME_1_2->Fill(etaMiddleStrip);}
-		if (stationRPC==1 && ringRPC==3) {Rolls_RE_1_3->Fill(nrollRPC);ETA_ME_1_3->Fill(etaMiddleRoll);ETAstrip_ME_1_3->Fill(etaMiddleStrip);}
-		if (stationRPC==2 && ringRPC==2) {Rolls_RE_2_2->Fill(nrollRPC);ETA_ME_2_2->Fill(etaMiddleRoll);ETAstrip_ME_2_2->Fill(etaMiddleStrip);}
-		if (stationRPC==2 && ringRPC==3) {Rolls_RE_2_3->Fill(nrollRPC);ETA_ME_2_2->Fill(etaMiddleRoll);ETAstrip_ME_2_2->Fill(etaMiddleStrip);}
-		if (stationRPC==3 && ringRPC==2) {Rolls_RE_3_2->Fill(nrollRPC);ETA_ME_3_2->Fill(etaMiddleRoll);ETAstrip_ME_3_2->Fill(etaMiddleStrip);}
-		if (stationRPC==3 && ringRPC==3) {Rolls_RE_3_3->Fill(nrollRPC);ETA_ME_3_2->Fill(etaMiddleRoll);ETAstrip_ME_3_2->Fill(etaMiddleStrip);}
-		if (stationRPC==4 && ringRPC==2) {Rolls_RE_4_2->Fill(nrollRPC);ETA_ME_4_2->Fill(etaMiddleRoll);ETAstrip_ME_4_2->Fill(etaMiddleStrip);}
-		if (stationRPC==4 && ringRPC==3) {Rolls_RE_4_3->Fill(nrollRPC);ETA_ME_4_2->Fill(etaMiddleRoll);ETAstrip_ME_4_2->Fill(etaMiddleStrip);}
-		/*
-	        std::cout << "digis in roll " << digisInRoll << std::endl;
-		std::cout << "region: " << id.region() << std::endl;
-		std::cout << "station: " << id.station() << std::endl;
-	     	RPCGeomServ rpcsrv(id);
-		std::cout << "chamber: " << rpcsrv.segment() << std::endl;
-	  */   }
+	        if (brk==1) break;
+                }
+                // Get the occupancy of rolls and eta regions                                                         	      
+        	if (stationRPC==1 && ringRPC==2) {
+		   Rolls_RE_1_2->Fill(nrollRPC);
+		   ETA_ME_1_2->Fill(etaMiddleRoll);
+		   ETAstrip_ME_1_2->Fill(etaMiddleStrip);
+		}
+		if (stationRPC==1 && ringRPC==3) {
+		   Rolls_RE_1_3->Fill(nrollRPC);
+		   ETA_ME_1_3->Fill(etaMiddleRoll);
+		   ETAstrip_ME_1_3->Fill(etaMiddleStrip);
+		}
+		if (stationRPC==2 && ringRPC==2) {
+		   Rolls_RE_2_2->Fill(nrollRPC);
+		   ETA_ME_2_2->Fill(etaMiddleRoll);
+		   ETAstrip_ME_2_2->Fill(etaMiddleStrip);
+		}
+		if (stationRPC==2 && ringRPC==3) {
+		   Rolls_RE_2_3->Fill(nrollRPC);
+		   ETA_ME_2_2->Fill(etaMiddleRoll);
+		   ETAstrip_ME_2_2->Fill(etaMiddleStrip);
+		}
+		if (stationRPC==3 && ringRPC==2) {
+		   Rolls_RE_3_2->Fill(nrollRPC);
+		   ETA_ME_3_2->Fill(etaMiddleRoll);
+		   ETAstrip_ME_3_2->Fill(etaMiddleStrip);
+		}
+		if (stationRPC==3 && ringRPC==3) {
+		   Rolls_RE_3_3->Fill(nrollRPC);
+		   ETA_ME_3_2->Fill(etaMiddleRoll);
+		   ETAstrip_ME_3_2->Fill(etaMiddleStrip);
+		}
+		if (stationRPC==4 && ringRPC==2) {
+		   Rolls_RE_4_2->Fill(nrollRPC);
+		   ETA_ME_4_2->Fill(etaMiddleRoll);
+		   ETAstrip_ME_4_2->Fill(etaMiddleStrip);
+		}
+		if (stationRPC==4 && ringRPC==3) {
+		   Rolls_RE_4_3->Fill(nrollRPC);
+		   ETA_ME_4_2->Fill(etaMiddleRoll);
+		   ETAstrip_ME_4_2->Fill(etaMiddleStrip);
+		}
+	     }
           } 
     }
-/*
-    //std::cout << "CSC INFO" << std::endl;
-    int n_cscsegments = 0;
-    int n_csccorrelated = 0;
-    MATCH_csc=0;
-    CSCSegmentCollection::const_iterator segment;
-    for (segment = cscsegments->begin();segment!=cscsegments->end(); ++segment){
-        n_cscsegments++;
-        CSCDetId CSCId = segment->cscDetId();
-        int cscEndCap = CSCId.endcap();
-        int cscStation = CSCId.station();
-        int cscSector = CSCId.triggerSector();
-        int cscLayer = CSCId.layer();
-        int cscRing = CSCId.ring();
-        if (cscRing==4) cscRing=1;
-        int cscChamber =  CSCId.chamber();
-	if (cscEndCap==2) cscEndCap=-1;
-        MATCH_csc=0;
-        for (CSCCorrelatedLCTDigiCollection::DigiRangeIterator csc = cscCorrDigis.product()->begin();
-            csc != cscCorrDigis.product()->end();
-            csc++) {
-            CSCCorrelatedLCTDigiCollection::Range myCscRange = cscCorrDigis.product()->get((*csc).first);
-            for (CSCCorrelatedLCTDigiCollection::const_iterator lct = myCscRange.first; lct != myCscRange.second; lct++) {
-                int endcap = (*csc).first.endcap();
-                if (endcap==2) endcap=-1;
-		int station = (*csc).first.station();
-                int sector = (*csc).first.triggerSector();
-                int ring = (*csc).first.ring();
-                int cscId = (*csc).first.triggerCscId();
-                int bx = lct->getBX();
-		int bxData = lct->getBXData();
-                int bx0 = lct->getBX0();
-                int chamberId =  (*csc).first.chamberId();
-                int layer = (*csc).first.layer();
-                int chamber = (*csc).first.chamber();
-                //if (n_cscsegments==1) std::cout << "CSCCorrLCT: " << "endcap: " << endcap <<"\tstation: " << station <<  "\tsector: " << sector << "\tchamber: " << chamber << "\tring: " << ring <<   "\tbx: " << bx << "\tcscId: " << cscId <<"\tbxData: " << bxData << "\tbx0: " << bx0 << std::endl;
-                n_csccorrelated++;
-		//std::cout << "CSC segment" << std::endl;
-		//if (cscStation==3&&n_csccorrelated ==1)std::cout << "CSCSEGMENT INFO: "<< "cscEndCap: " << cscEndCap << "\tcscStation: " << cscStation << "\tcscSector: " << cscSector << "\tcscChamber: " << cscChamber << "\tcscLayer: " << cscLayer<< "\tcscRing: " << cscRing << std::endl;  
-		if (endcap==cscEndCap && station==cscStation && chamber== cscChamber) MATCH_csc = 1;
-		//if (endcap==cscEndCap && station==(cscStation+1) && chamber== cscChamber) MATCH_csc = 1;
-		//if (endcap==cscEndCap && station==(cscStation-1) && chamber== cscChamber) MATCH_csc = 1;		
-            }
-        }
-	if (MATCH_csc==1) {
-           //std::cout << "MATCH" << std::endl; 
-           MATCH_counter++;
-	   std::cout << MATCH_counter << std::endl;
-	}
-	if (MATCH_csc==0) {
-            NOMATCH_counter++;
-	    std::cout << "NO MATCH" << std::endl;
-	    std::cout << NOMATCH_counter << std::endl;
-	    std::cout << "CSCSEGMENT INFO: "<< "cscEndCap: " << cscEndCap << "\tcscStation: " << cscStation << "\tcscSector: " << cscSector << "\tcscChamber: " << cscChamber << "\tcscLayer: " << cscLayer<< "\tcscRing: " << cscRing << std::endl;
-            for (CSCCorrelatedLCTDigiCollection::DigiRangeIterator csc = cscCorrDigis.product()->begin();
-            csc != cscCorrDigis.product()->end();
-            csc++) {
-            CSCCorrelatedLCTDigiCollection::Range myCscRange = cscCorrDigis.product()->get((*csc).first);
-                for (CSCCorrelatedLCTDigiCollection::const_iterator lct = myCscRange.first; lct != myCscRange.second; lct++) {
-                    int endcap = (*csc).first.endcap();
-        	    if (endcap==2) endcap=-1;
-	            int station = (*csc).first.station();
-                    int sector = (*csc).first.triggerSector();
-                    int ring = (*csc).first.ring();
-                    int cscId = (*csc).first.triggerCscId();
-                    int bx = lct->getBX();
-                    int chamberId =  (*csc).first.chamberId();
-                    int layer = (*csc).first.layer();
-                    int chamber = (*csc).first.chamber();
-                    if (endcap==cscEndCap && station==cscStation && chamber== cscChamber &&  cscRing!= ring) {
-                       nomatch_rings->Fill(cscRing,ring);
-                       if (station==1) nomatch_rings1->Fill(cscRing,ring);
-                       if (station==2) nomatch_rings2->Fill(cscRing,ring);
-                       if (station==3) nomatch_rings3->Fill(cscRing,ring);
-                       if (station==4) nomatch_rings4->Fill(cscRing,ring);
-                    }
-                    if (endcap==cscEndCap && station!=cscStation && chamber== cscChamber) {nomatch_stations->Fill(cscStation,station);}
-                       std::cout << "CSCCORRELATEDLCT INFO: " << "endcap: " << endcap <<"\tstation: " << station <<  "\tsector: " << sector << "\tchamber: " << chamber << "\tlayer: " << layer << "\tring: " << ring << "\tcscId: " << cscId << "\tbx: " << bx << std::endl;
-		}       
-            }
-        }
-     }
-
-
-
-
-     //std::cout << "RPC INFO" << std::endl;
-     //if(pRPCrecHits->begin()!=pRPCrecHits->end()) std::cout << ">>>>>>> LIST OF RPC RECHIT POINTS <<<<<<< " << std::endl;
-     RPCRecHitCollection::const_iterator recHit;
-     for(recHit = pRPCrecHits->begin(); recHit != pRPCrecHits->end(); recHit++){
-        RPCDetId rpcId = recHit->rpcId();
-	//LocalPoint rpc_position=recHit->localPosition();
-        RPCGeomServ rpcsrv(rpcId);
-        int stationRPC =  rpcId.station();
-        int regionRPC  =  rpcId.region();
-        if (regionRPC==0) continue;
-        int ringRPC    =  rpcId.ring();
-        int sectorRPC  =  rpcId.sector();
-        int layerRPC   =  rpcId.layer();
-        int BXRPC      =  recHit->BunchX();
-        int subsectorRPC = rpcId.subsector();
-        int rollRPC = rpcId.roll();
-        int segmentRPC =  rpcsrv.segment();
-        // Skip iRPCs sectors
-	if (stationRPC==3 && ringRPC==1) continue;
-        if (stationRPC==4 && ringRPC==1) continue;
-        for (CSCCorrelatedLCTDigiCollection::DigiRangeIterator csc = cscCorrDigis.product()->begin();
-            csc != cscCorrDigis.product()->end();
-            csc++) {
-            CSCCorrelatedLCTDigiCollection::Range myCscRange = cscCorrDigis.product()->get((*csc).first);
-            for (CSCCorrelatedLCTDigiCollection::const_iterator lct = myCscRange.first; lct != myCscRange.second; lct++) {
-                int endcapCSC = (*csc).first.endcap();
-                int stationCSC = (*csc).first.station();
-                int sectorCSC = (*csc).first.triggerSector();
-                int ringCSC = (*csc).first.ring();
-                int cscIdCSC = (*csc).first.triggerCscId();
-                int bxCSC = lct->getBX();
-                int bxDataCSC = lct->getBXData();
-                int bx0CSC = lct->getBX0();
-                int chamberIdCSC =  (*csc).first.chamberId();
-                int layerCSC = (*csc).first.layer();
-                int chamberCSC = (*csc).first.chamber();
-		//int cscID = (*csc).first.getCSCID();
-		if (endcapCSC==2) endcapCSC=-1; //for RPC consistency
-		if (endcapCSC==regionRPC && stationCSC==stationRPC && chamberCSC==segmentRPC){
-		//std::cout << "CSCCorrLCT: " << "endcap: " << endcapCSC <<"\tstation: " << stationCSC <<  "\tsector: " << sectorCSC << "\tchamber: " << chamberCSC << "\tring: " << ringCSC <<   "\tbx: " << bxCSC << "\tcscId: " << cscIdCSC <<"\tbxData: " << bxDataCSC << "\tbx0: " << bx0CSC << std::endl;
-		//std::cout <<  "RPCrecHit: " << " region: " << regionRPC << "\tstation: " << stationRPC <<  "\tsector: " << sectorRPC << "\tchamber: " << segmentRPC <<"\tring: " << ringRPC << "\tBX: " << BXRPC   << "\tsubsector: " << subsectorRPC << " chambername: " << rpcsrv.chambername() << " roll: " << rollRPC << std::endl;
-		   //std::cout << " " << std::endl;		   
-		}
-
-	    }
-	}
-
-	//std::cout <<  "RPCrecHit: " << " region: " << region << "\tstation: " << station <<  "\tsector: " << sector << "\tchamber: " << segment <<"\tring: " << ring << "\tBX: " << BX   << "\tsubsector: " << subsector << " chambername: " << rpcsrv.chambername() << " roll: " << roll << std::endl;
-     }
-     std::map<CSCStationIndex,std::set<RPCDetId>> rollstore;
-     rollstore.clear();
-     //std::cout << ">>>>>>> LIST OF RPC GENERAL INFORMATION <<<<<<< " << std::endl;
-     for (TrackingGeometry::DetContainer::const_iterator it=rpcGeo->dets().begin();it<rpcGeo->dets().end();it++){
-         if (dynamic_cast< const RPCChamber* >( *it ) != nullptr ){
-            auto ch = dynamic_cast< const RPCChamber* >( *it );
-            std::vector< const RPCRoll*> roles = (ch->rolls());
-            for (std::vector<const RPCRoll*>::const_iterator r = roles.begin();r != roles.end(); ++r){
-                RPCDetId rpcId = (*r)->id();
-                int rpcregion=rpcId.region();
-                if (rpcregion!=0){
-                   int rpcstation=rpcId.station();
-                   int rpcring=rpcId.ring();
-                   int cscring=rpcring;
-                   int cscstation=rpcstation;
-                   RPCGeomServ rpcsrv(rpcId);
-                   int rpcsegment = rpcsrv.segment();
-                   int cscchamber = rpcsegment;
-                   if ((rpcstation==2||rpcstation==3)&&rpcring==3){
-                      cscring = 2;
-                   }
-                   //if (station==3) std::cout << "region: " << region << "\tstation: " << station << "\tring: " << ring << "\trpcsegment: " << rpcsegment << std::endl;
-                   CSCStationIndex ind(rpcregion,cscstation,cscring,cscchamber);
-                   std::set<RPCDetId> myrolls;
-                   if (rollstore.find(ind)!=rollstore.end()) myrolls=rollstore[ind];
-                   myrolls.insert(rpcId);
-                   rollstore[ind]=myrolls;
-                }
-             }
-          }
-     }
-
-     double MaxD = 80.;
-     float eyr = 1;
-     //int n_cscsegments = 0;
-     //if(cscsegments->begin()!=cscsegments->end()) std::cout << ">>>>>>> LIST OF CSC SEGMENTS AND ITS PROPAGATED POINTS IN RPC <<<<<<< " << std::endl;
-     //std::cout << "CSC segment" << std::endl;
-
-     for (segment = cscsegments->begin();segment!=cscsegments->end(); ++segment){
-         n_cscsegments++;
-         CSCDetId CSCId = segment->cscDetId();
-         int cscEndCap = CSCId.endcap();
-         int cscStation = CSCId.station();
-         int cscRing = CSCId.ring();
-         int rpcRegion = 1; if(cscEndCap==2) rpcRegion= -1;
-         int rpcRing = cscRing;
-         if(cscRing==4)rpcRing =1;
-         int rpcStation = cscStation;
-         int rpcSegment = CSCId.chamber();
-         LocalPoint segmentPosition= segment->localPosition();
-         LocalVector segmentDirection=segment->localDirection();
-         // float dz=segmentDirection.z();
-         //if((segment->dimension()==4) && (segment->nRecHits()<=10 && segment->nRecHits()>=4)){
-         float Xo=segmentPosition.x();
-         float Yo=segmentPosition.y();
-         float Zo=segmentPosition.z();
-         float dx=segmentDirection.x();
-         float dy=segmentDirection.y();
-         float dz=segmentDirection.z();
-         CSCStationIndex theindex(rpcRegion,rpcStation,rpcRing,rpcSegment);
-         static const std::set<RPCDetId> empty;
-         //std::set<RPCDetId> rollsForThisCSC = (rollstore.find(theindex) == rollstore.end()) ? empty : rollstore.at(theindex);//
-         const CSCChamber* TheChamber=cscGeo->chamber(CSCId);
-	 //if (cscStation==3) std::cout << "cscEndCap: " << cscEndCap << "\tcscStation: " << cscStation << "\tcscChamber: " << rpcSegment << "\tcscLayer: " << CSCId.layer()<< "\tcscRing: " << cscRing << std::endl;
-*/	 /*if (rpcRing!=1&&rpcStation!=4){
-              assert(!rollsForThisCSC.empty());
-              for (std::set<RPCDetId>::iterator iteraRoll = rollsForThisCSC.begin();iteraRoll != rollsForThisCSC.end(); iteraRoll++){
-                  const RPCRoll* rollasociated = rpcGeo->roll(*iteraRoll);
-                  RPCDetId rpcId = rollasociated->id();
-                  const BoundPlane & RPCSurface = rollasociated->surface();
-                  GlobalPoint CenterPointRollGlobal = RPCSurface.toGlobal(LocalPoint(0,0,0));
-                  LocalPoint CenterRollinCSCFrame = TheChamber->toLocal(CenterPointRollGlobal);
-                  float D=CenterRollinCSCFrame.z();
-                  float X=Xo+dx*D/dz;
-                  float Y=Yo+dy*D/dz;
-                  float Z=D;
-                  const TrapezoidalStripTopology* top_=dynamic_cast<const TrapezoidalStripTopology*>(&(rollasociated->topology()));
-                  LocalPoint xmin = top_->localPosition(0.);
-                  LocalPoint xmax = top_->localPosition((float)rollasociated->nstrips());
-                  float rsize = fabs( xmax.x()-xmin.x() );
-                  float stripl = top_->stripLength();
-                  float stripw = top_->pitch();
-                  float extrapolatedDistance = sqrt((X-Xo)*(X-Xo)+(Y-Yo)*(Y-Yo)+(Z-Zo)*(Z-Zo));
-                  if (extrapolatedDistance<=MaxD){
-                     GlobalPoint GlobalPointExtrapolated=TheChamber->toGlobal(LocalPoint(X,Y,Z));
-                     LocalPoint PointExtrapolatedRPCFrame = RPCSurface.toLocal(GlobalPointExtrapolated);
-                     if(fabs(PointExtrapolatedRPCFrame.z()) < 1. &&
-                        fabs(PointExtrapolatedRPCFrame.x()) < rsize*eyr &&
-                        fabs(PointExtrapolatedRPCFrame.y()) < stripl*eyr){
-                        RPCRecHit RPCPoint(rpcId,0,PointExtrapolatedRPCFrame);
-                        RPCDetId rpcId_new = RPCPoint.rpcId();
-                        RPCGeomServ rpcpointsrv_new(rpcId_new);
-			//std::cout << "CSCSegment in chamber: " << CSCId.chamberName()  << " propagated to RPC chamber: " << rpcpointsrv_new.chambername() << " with X position: " << RPCPoint.localPosition().x() << std::endl;
-		     }
-		  }
-	      }
-	   }
-	   //}
-	*/
-/*     }
-     
-     if(pRPCrecHits->begin()!=pRPCrecHits->end()) std::cout << ">>>>>>> LIST OF RPC RECHIT POINTS <<<<<<< " << std::endl;
-     RPCRecHitCollection::const_iterator recHit;
-     for (recHit = pRPCrecHits->begin(); recHit != pRPCrecHits->end(); recHit++){
-          RPCDetId rpcId = recHit->rpcId();
-          LocalPoint rpc_position=recHit->localPosition();
-          RPCGeomServ rpcsrv(rpcId);
-          std::cout << " RPC rechit in chamber: " << rpcsrv.chambername() << "  with local position: " << rpc_position.x() << std::endl;
-     }
-  */  
-
 
 #ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE
   // if the SetupData is always needed
