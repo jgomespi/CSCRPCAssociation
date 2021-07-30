@@ -11,6 +11,6 @@ To get the code:
 > scram b -j8\
 > cd CSCRPCAssociation
 
-To run the analyzer (which is at plugins/) and try to print the RE4 information:
+To run the analyzer (which is at plugins/):
 >cmsRun cscrpc_reco.py
 
