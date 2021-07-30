@@ -13,10 +13,10 @@ To get the code:
 
 To generate the datasample:
 
->cmsRun step_0_cfg.py
->cmsRun step_1_cfg.py
->cmsRun step_2_cfg.py
+> cmsRun step_0_cfg.py
+> cmsRun step_1_cfg.py
+> cmsRun step_2_cfg.py
 
 To run the analyzer (which is at plugins/):
->cmsRun cscrpc_reco.py
+> cmsRun cscrpc_reco.py
 
