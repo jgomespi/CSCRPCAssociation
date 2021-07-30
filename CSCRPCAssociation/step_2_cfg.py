@@ -84,7 +84,7 @@ process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
 )
 # Joao
 process.AODSIMoutput.outputCommands = cms.untracked.vstring('drop *')
-process.AODSIMoutput.outputCommands = cms.untracked.vstring('keep *_*simMuonRPCDigis*_*_*','keep *_*csc*_*_*','keep *_*rpcRecHits*_*_*','keep *_*simCscTriggerPrimitiveDigis*_*_*')
+process.AODSIMoutput.outputCommands = cms.untracked.vstring('keep *_*simMuonRPCDigis*_*_*','keep *_*csc*_*_*','keep *_*rpcRecHits*_*_*','keep *_*simCscTriggerPrimitiveDigis*_*_*','keep *_*simMuonCSCDigis*_*_*')
 # Additional output definition
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag

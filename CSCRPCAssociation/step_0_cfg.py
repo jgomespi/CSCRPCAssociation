@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: SingleMuPt100_Eta2p85_cfi --beamspot HLLHC --conditions auto:phase2_realistic_T21 --customise SLHCUpgradeSimulations/Configuration/aging.customise_aging_1000 --datatier GEN-SIM --era Phase2C11I13M9 --eventcontent RAWSIM --fileout file:step0.root --geometry Extended2026D76 --nThreads 8 --number 10 --python_filename step_0_cfg.py --relval 9000,100 --step GEN,SIM
+# with command line options: SingleMuPt100_Eta1p09_cfi --beamspot HLLHC --conditions auto:phase2_realistic_T21 --customise SLHCUpgradeSimulations/Configuration/aging.customise_aging_1000 --datatier GEN-SIM --era Phase2C11I13M9 --eventcontent RAWSIM --fileout file:step0.root --geometry Extended2026D76 --nThreads 8 --number 10 --python_filename step_0_cfg.py --relval 9000,100 --step GEN,SIM
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Phase2C11I13M9_cff import Phase2C11I13M9
@@ -26,7 +26,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-	input = cms.untracked.int32(1000),
+	input = cms.untracked.int32(5000),
 	output = cms.optional.untracked.allowed(cms.int32,cms.PSet)
 )
 # Input source
@@ -61,7 +61,7 @@ process.options = cms.untracked.PSet(
 )
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-	annotation = cms.untracked.string('SingleMuPt100_Eta2p85_cfi nevts:10'),
+	annotation = cms.untracked.string('SingleMuPt100_Eta1p09_cfi nevts:10'),
 	name = cms.untracked.string('Applications'),
 	version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -92,10 +92,10 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T21', ''
 process.generator = cms.EDFilter("Pythia8PtGun",
 	PGunParameters = cms.PSet(
 		AddAntiParticle = cms.bool(True),
-		MaxEta = cms.double(2.85),
+		MaxEta = cms.double(1.9),
 		MaxPhi = cms.double(3.14159265359),
 		MaxPt = cms.double(100.01),
-		MinEta = cms.double(-2.85),
+		MinEta = cms.double(-1.9),
 		MinPhi = cms.double(-3.14159265359),
 		MinPt = cms.double(99.99),
 		ParticleID = cms.vint32(-13)
