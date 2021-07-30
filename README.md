@@ -11,6 +11,12 @@ To get the code:
 > scram b -j8\
 > cd CSCRPCAssociation
 
+To generate the datasample:
+
+>cmsRun step_0_cfg.py
+>cmsRun step_1_cfg.py
+>cmsRun step_2_cfg.py
+
 To run the analyzer (which is at plugins/):
 >cmsRun cscrpc_reco.py
 
